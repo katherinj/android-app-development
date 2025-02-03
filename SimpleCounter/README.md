@@ -15,4 +15,4 @@ TO DO: include gif here
 
 - [x] User can exchange number of taps accumulated for upgrades
 - [x] Customize the app with a theme. For example, you can have a dog background and a paw print button to give your app a dog theme.
-- [x] (Extra challenge) User has increasingly difficult goals to reach in terms of number of taps accumulated. Each goal is displayed on the screen until the next goal is reached, and user can see how many goals they've reached in total.
+- [ ] (Extra challenge) User has increasingly difficult goals to reach in terms of number of taps accumulated. Each goal is displayed on the screen until the next goal is reached, and user can see how many goals they've reached in total.
