@@ -11,11 +11,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
-    var counter = 0
+    private var counter = 0
+    private var currentGoal = 25
+    private var totalGoalsCount = 0
+    private var clicker = 1
+    private var nextUpgrade = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,32 +33,51 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val btn = findViewById<ImageButton>(R.id.button)
-        val upgradeBtn = findViewById<Button>(R.id.button2)
+        val btn = findViewById<ImageButton>(R.id.clickerBtn)
+        val upgradeBtn = findViewById<Button>(R.id.upgradeBtn)
+        val totalGoalsCountLabel = findViewById<TextView>(R.id.totalGoalsCountLabel)
+        val currentGoalLabel = findViewById<TextView>(R.id.currentGoalCountLabel)
+        val textView = findViewById<TextView>(R.id.counter)
+        val nextUpgradeLabel = findViewById<TextView>(R.id.nextUpgradeLabel)
+        val nextUpgradeTextLabel = findViewById<TextView>(R.id.nextUpgradeTextLabel)
 
-        val textView = findViewById<TextView>(R.id.textView)
+        currentGoalLabel.text = "$currentGoal"
+
         btn.setOnClickListener {
             bounceAnimation(btn)
 
-            counter += 1
-            textView.text = counter.toString()
-            if (counter >=100) {
+            counter += clicker
+            textView.text = "$counter"
 
-                // Show upgrade button and set onClickListener
+            if (counter >= currentGoal) {
+                totalGoalsCount++
+                currentGoal = (currentGoal * 1.25).toInt()
+                currentGoalLabel.text = "$currentGoal"
+                totalGoalsCountLabel.text = "$totalGoalsCount"
+                bounceAnimation(currentGoalLabel)
+                bounceAnimation(totalGoalsCountLabel)
+            }
+
+            if (counter >= nextUpgrade) {
+                var tempClicker = clicker * 2
+                upgradeBtn.text = "Upgrade clicker to $tempClicker"
                 upgradeBtn.visibility = View.VISIBLE
-                upgradeBtn.setOnClickListener {
-                    btn.setOnClickListener {
-                        bounceAnimation(btn)
-                        counter += 2
-                        textView.text = counter.toString()
-                    }
-
-                    // Hide upgrade button again
-                    upgradeBtn.visibility = View.INVISIBLE
-                }
+                nextUpgradeTextLabel.visibility = View.INVISIBLE
+                nextUpgradeLabel.visibility = View.INVISIBLE
             }
         }
 
+        upgradeBtn.setOnClickListener {
+            bounceAnimation(btn)
+            clicker *= 2
+            nextUpgrade = counter + 100 * clicker
+            Toast.makeText(this, "Upgraded! Clicker now $clicker! Next upgrade at $nextUpgrade", Toast.LENGTH_SHORT).show()
+            upgradeBtn.visibility = View.INVISIBLE
+
+            nextUpgradeLabel.text = "$nextUpgrade"
+            nextUpgradeTextLabel.visibility = View.VISIBLE
+            nextUpgradeLabel.visibility = View.VISIBLE
+        }
     }
 
    fun bounceAnimation(view: View){

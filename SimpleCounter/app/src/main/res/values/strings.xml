@@ -3,4 +3,9 @@
     <string name="add_1">ADD 1</string>
     <string name="add_2">Upgrade to Add 2</string>
     <string name="count">0</string>
+    <string name="initialGoal">25</string>
+    <string name="goal_label">Goal:</string>
+    <string name="total_goals_achieved_label">Total goals:</string>
+    <string name="zero">0</string>
+
 </resources>
